@@ -4,13 +4,11 @@ package com.cyzs.netty2;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.handler.codec.bytes.ByteArrayEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @Author xiaoh
@@ -22,8 +20,8 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
         //
-        pipeline.addLast(new StringEncoder(Charset.forName("UTF-8")));
-        pipeline.addLast(new StringDecoder(Charset.forName("UTF-8")));
+        pipeline.addLast(new StringEncoder(StandardCharsets.UTF_8));
+        pipeline.addLast(new StringDecoder(StandardCharsets.UTF_8));
         //pipeline.addLast(new ByteArrayEncoder());
         //自己实现逻辑处理
         pipeline.addLast("myServerHander",new MyServerHandler());

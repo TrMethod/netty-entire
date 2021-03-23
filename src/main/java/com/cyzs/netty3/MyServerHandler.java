@@ -20,6 +20,7 @@ public class MyServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
         Channel ch = channelHandlerContext.channel();
+        System.out.println(ch.localAddress().toString());
         channelGroup.forEach(channel -> {
             if (ch != channel){
                 channel.writeAndFlush(ch.remoteAddress()+"发送消息："+s);

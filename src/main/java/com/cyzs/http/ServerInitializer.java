@@ -1,13 +1,9 @@
-package com.cyzs.netty;
+package com.cyzs.http;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.bytes.ByteArrayEncoder;
 import io.netty.handler.codec.http.HttpServerCodec;
-import io.netty.handler.codec.string.StringEncoder;
-
-import java.nio.charset.Charset;
 
 /**
  * @Author xiaoh
@@ -19,9 +15,9 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
         //HttpServerCodec处理http请求
-        pipeline.addLast("httpServerCodec",new HttpServerCodec());
+        pipeline.addLast("httpServerCodec", new HttpServerCodec());
 
         //自己实现逻辑处理
-        pipeline.addLast("myHttpServerHander",new MyHttpServerHandler());
+        pipeline.addLast("myHttpServerHandler", new MyHttpServerHandler());
     }
 }

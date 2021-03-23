@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ws</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<h1 id="h1">111</h1>
+<input type="text" id="msg">
+<input type="button" id="b1" value="发送"><br>
+
+</body>
+<script>
+    $(document).ready(function () {
+
+        var websocket=null;
+        if("WebSocket" in window){
+            var number = Math.random();
+            websocket = new WebSocket("ws://localhost:9900/ws/"+number);
+        }else{
+            alert("浏览器不支持websocket");
+        }
+        //建立连接
+        websocket.onopen = function (event) {
+            console.log("建立连接了");
+        }
+        //关闭连接
+        websocket.onclose = function (event) {
+            console.log("关闭连接")
+        }
+        //连接出错
+        websocket.onerror = function (event) {
+            console.log("连接出错")
+        }
+        //接收服务器信息
+        websocket.onmessage = function (msg) {
+            console.log(msg.data);
+            document.getElementById("h1").innerHTML = msg.data;
+        }
+        //向服务器发消息
+        function sendMsg(){
+            if (websocket.readyState == 1) {
+                websocket.send("aaaa");
+            }
+        }
+
+        $("#b1").click(function () {
+            if (websocket.readyState == 1) {
+                websocket.send(JSON.stringify(clientMessage));
+            }
+        })
+
+    })
+</script>
+</html>

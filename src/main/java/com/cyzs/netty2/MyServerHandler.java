@@ -21,20 +21,22 @@ public class MyServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.out.println(cause.getMessage());
         System.out.println("出现异常了");
+        ctx.close();
     }
 
 
 
     @Override
     public boolean acceptInboundMessage(Object msg) throws Exception {
-        System.out.println("接收消息");
+        //System.out.println("接收消息");
         return super.acceptInboundMessage(msg);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("读消息");
+        //System.out.println("读消息");
         super.channelRead(ctx, msg);
     }
 

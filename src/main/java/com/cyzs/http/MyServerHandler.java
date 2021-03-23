@@ -1,13 +1,14 @@
-package com.cyzs.netty;
+package com.cyzs.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.http.HttpObject;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
- * @Description:继承ChannelInboundHandlerAdapter 可以处理任意类型的处理
+ *  SimpleChannelInboundHandler的作用就是类型转换，可以直接实现ChannelInboundHandlerAdapter自己转换
  * @Author xh
  * @create 2019-12-11 9:52
  */
@@ -15,14 +16,16 @@ public class MyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        String port = ctx.channel().localAddress().toString();
-        ByteBuf buf = (ByteBuf) msg;
-        String s = buf.toString(Charset.forName("UTF-8"));
-        System.out.println(s);
 
-        //ctx.channel().writeAndFlush("hello");
-        //channel().writeAndFlush和writeAndFlush有什么区别
-        ctx.writeAndFlush("hello");
+        if (msg instanceof HttpObject){
+            HttpObject httpObject = (HttpObject)msg;
+
+
+
+
+
+
+        }
     }
 
     @Override

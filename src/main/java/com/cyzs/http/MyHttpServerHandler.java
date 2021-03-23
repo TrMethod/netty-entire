@@ -1,4 +1,4 @@
-package com.cyzs.netty;
+package com.cyzs.http;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -7,25 +7,25 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.DecoderResult;
 import io.netty.handler.codec.http.*;
 
-import javax.swing.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
- * 继承 SimpleChannelInboundHandler 有一个泛型，这种只能接受泛型的类型
+ * 继承 SimpleChannelInboundHandler有一个泛型，这种只能接受泛型的类型
  * @Author xiaoh
  * @create 2019-09-07 23:05
  */
 public class MyHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+
+
     /**
      * 方法调用时机
-     * @param channelHandlerContext
-     * @param httpObject
-     * @throws Exception
+     * @param channelHandlerContext channelHandlerContext
+     * @param httpObject httpObject
+     * @throws Exception Exception
      */
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, HttpObject httpObject) throws Exception {
         try{
-
             if (httpObject instanceof HttpRequest){
                 HttpRequest request = (HttpRequest) httpObject;
                 System.out.println(request.uri());
@@ -34,7 +34,7 @@ public class MyHttpServerHandler extends SimpleChannelInboundHandler<HttpObject>
                     return;
                 }
                 System.out.println("myhandler==");
-                ByteBuf content = Unpooled.copiedBuffer("Hello World", Charset.forName("UTF-8"));
+                ByteBuf content = Unpooled.copiedBuffer("Hello World", StandardCharsets.UTF_8);
                 FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
                 response.headers().set(HttpHeaderNames.CONTENT_TYPE,"text/plain");
                 response.headers().set(HttpHeaderNames.CONTENT_LENGTH,content.readableBytes());
@@ -42,8 +42,8 @@ public class MyHttpServerHandler extends SimpleChannelInboundHandler<HttpObject>
                 //关闭channel ，也可以不关，一直连接
                 channelHandlerContext.channel().close();
             }else {
+                //非http请求
                 DecoderResult decoderResult = httpObject.decoderResult();
-                decoderResult.toString();
                 System.out.println(decoderResult.toString());
                 channelHandlerContext.writeAndFlush("hello");
 
